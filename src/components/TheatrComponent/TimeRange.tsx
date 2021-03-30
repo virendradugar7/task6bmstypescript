@@ -6,7 +6,7 @@ import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 const MultiSelect2 = ({prop})=>{
     const callbackfunction=prop[0];
     const optionsList=prop[1];
-    var[value,getValue]=useState([]);
+    var[value,getValue]=useState<string[]>([]);
     var dd2handle = (e) => {
         getValue(Array.isArray(e)?e.map(x=>x.value):[]);
       

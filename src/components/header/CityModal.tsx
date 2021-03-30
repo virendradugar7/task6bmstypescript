@@ -2,7 +2,7 @@ import styles from '../../bms.css';
 import React,{useState} from 'react';
 import Modal from 'react-modal';
  const CityModal = () => {
-    const[modalIsOpen, setModalIsOpen]= useState(false) 
+    const[modalIsOpen, setModalIsOpen]= useState<boolean>(false) 
     return (
         <div id="drop">
           <div onClick={() => setModalIsOpen(true)}>city</div>
