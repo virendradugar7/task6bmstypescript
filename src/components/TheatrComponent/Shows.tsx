@@ -7,22 +7,17 @@ import { Link } from 'react-router-dom';
 
 import '@fluentui/react/dist/css/fabric.min.css';
 
-interface Props {
-cinema:string,
-classname:string[],
-id:number[],
-price:number[],
-timing:string[]
+interface IProp{
+    moviename:string,
+    props:Itheater
 }
-const Shows:React.FC<{moviename:string,props:any}>= ({children,moviename,props}) =>{
-   console.log(props); 
+const Shows:React.FC<IProp>= ({moviename,props}:IProp) =>{
     const cn=props.classname;
-    console.log(cn);
     const showTimes=props.timing;
     const price=props.price;
-
     return(
-           cn.map((shows:string[],index:number) => (
+        <>{
+           cn.map((shows:string,index:number) => (
             <Link style={{ color: 'black', textDecoration: 'none' }}
             to={`/${moviename}/${props.cinema}/${props.id[index]}`}
                
@@ -33,9 +28,8 @@ const Shows:React.FC<{moviename:string,props:any}>= ({children,moviename,props})
                    <ReactTooltip id="here" place="top" effect="solid">Rs{price[index]}</ReactTooltip>
                </div>
                </Link>
-
            ))
-      
+        }</>    
     )
 }
 export default Shows

@@ -181,7 +181,7 @@ if(movies!=null){
             <section className="theatresigns"></section>
       
 
-            <ShowList props={obj} />
+            <ShowList insideIprop={obj} />
 
 
 

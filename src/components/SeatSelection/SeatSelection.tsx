@@ -9,12 +9,13 @@ import { Link } from 'react-router-dom';
 import Imovie from '../../interfaces/Moviecontex.interface'
 
 
-let leftt:number;//seat left to be selected 
+
+const Seatselection = () => {
+    let leftt:number;//seat left to be selected 
 let c:number;//initial user number of seats choice
 let bookedArray;
 let alreadyBooked;
 let occupiedSeats;
-const Seatselection = () => {
     interface ParamTypes {
         moviename: string,
         cinema:string,

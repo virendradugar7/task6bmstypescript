@@ -1,4 +1,4 @@
-import styles from '../../bms.css';
+import  '../../bms.css';
 
 export const navleft = () => {
     return (
