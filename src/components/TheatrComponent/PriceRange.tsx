@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import styles from '../../bms.css';
+import  '../../bms.css';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
 const PriceRange = ({prop})=>{
@@ -11,13 +11,9 @@ const PriceRange = ({prop})=>{
         
     }
  callbackfunction(value);
-
-    
-    // console.log(prop(value));
     return(
          <div>
              <ReactMultiSelectCheckboxes options={optionsList} placeholderButtonLabel={"price"}  onChange={dd1handle} /> 
-
          </div>
     )
 }

@@ -4,32 +4,16 @@ import Shows from './Shows';
 import '@fluentui/react/dist/css/fabric.min.css';
 import Imovie from "../../interfaces/Moviecontex.interface"
 import Itheater from "../../interfaces/Theater.interface"
-// interface Props{
-//     name:string,
-//     theater:{
-//         cinema:string,
-//         timing:string[],
-//         price:number[],
-//         classname:string[],
-//         id:number[]
-//         }[];
-// }
 
 interface IProp{
     insideIprop:Imovie[]
 }
-
-//pro:IProp -> insideIprop:Imovie[] (Iterate) -> val:Imovie
-
-
-//
-
 function ShowList({insideIprop}:IProp) {
-    const obj = insideIprop;
-    const moviename:string=obj[0].name;
-    const theaterList= obj[0].theater;
+    const showobject = insideIprop;
+    const moviename:string=showobject[0].name;
+    const theaterList= showobject[0].theater;
     
-    console.log(obj);
+   
     return (
         <>
         {

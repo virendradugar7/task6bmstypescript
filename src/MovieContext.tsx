@@ -1,8 +1,6 @@
 import React,{createContext} from 'react';
  import Imovie from './interfaces/Moviecontex.interface'
  import { FunctionComponent } from 'react';
-//export const MovieContext=createContext("");
-
 export const MovieProvider=props=> {
     const movies:Imovie[]= [
         {
@@ -187,12 +185,18 @@ export const MovieProvider=props=> {
         }
       
     ];
-    console.log(movies);
+let clone;
+  function filtermovie(name){
+    return clone = movies.filter(m => {
+        return m.name === name
+    });//sending only the selected movie data 
+  }
+ 
     return(
-       
-      <MovieContext.Provider value ={movies}>
+//passing function a svalue
+      <MovieContext.Provider value ={filtermovie}>
       {props.children}
        </MovieContext.Provider>
     );
 }
-export const MovieContext=createContext<Imovie[]>({} as Imovie[] );
+export const MovieContext=createContext<Function>({} as Function );

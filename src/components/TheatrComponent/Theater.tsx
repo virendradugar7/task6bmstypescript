@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import   '../../bms.css';
+import '../../bms.css';
 import { MovieContext } from '../../MovieContext';
 import { useParams } from 'react-router-dom';
 import ShowList from './ShowList';
@@ -11,81 +11,62 @@ import Imovie from '../../interfaces/Moviecontex.interface'
 import Itheater from '../../interfaces/Theater.interface'
 import '@fluentui/react/dist/css/fabric.min.css';
 
-var clone;
+interface IList {
+    value: string,
+    label: string
+}
 
-export const  Theater = ({ props }) => {
-
-    const priceList = StaticJson().mainList;
-    const timeList=StaticJson().timeList;
+export const Theater = ({ props }) => {
+    const priceList: IList[] = StaticJson().mainList;
+    const timeList: IList[] = StaticJson().timeList;
     console.log(priceList);
-    // const [filterIsOpen, setfilter] = useState(false);
-
-    const movies:Imovie[]= useContext(MovieContext);
-    console.log(movies);
+    const filtermovie: Function = useContext(MovieContext);
     interface ParamTypes {
         movie: string
-      }
-      const { movie } = useParams<ParamTypes>()
+    }
+    const { movie } = useParams<ParamTypes>()
+    const clone = filtermovie(movie)
+    const [clone2, setcl] = useState<Imovie[] | undefined>(clone);
+    const [obj, setobj] = useState<Imovie[] | undefined>(clone);
+    const [priceFilter, setpriceFilter] = useState<string[] | null>([null]);
+    const [timeFilter, settimeFilter] = useState<string[] | null>([null]);
 
-// let {movie} = useParams();
- 
- 
-if(movies!=null){
-    clone = movies.filter(m => {
-        return m.name == movie
-    });
-}
-    
-    const [clone2,setcl]=useState<Imovie[]|undefined>(clone);
-
-    console.log("initial clone",clone2);
-    const [obj, setobj] = useState<Imovie[]|undefined>(clone);
-
-    var [priceFilter, setpriceFilter] = useState<string[]|null>([null]);
-    var [timeFilter, settimeFilter] =useState<string[]|null>([null]);
-
-    // const [refresh, setRefresh] = useState(0)
 
     useEffect(() => {
-
-        //Normal Datastructure
-        let subCline;
-        subCline = clone;
+        const subCline = clone;//creating a clone of clone
         console.log("arraycheck", clone);
-       
-      
-        if ( priceFilter.length==0 && timeFilter.length == 0) {
-           
+        if (priceFilter.length === 0 && timeFilter.length === 0) {
+
             setobj(clone2);
-            console.log(clone2, "zzzzz")
         }
         else {
-            var newobj:any=[{}];
-            var theaters:Array<Itheater>= [];
-          
-            let theaterList = subCline[0].theater;
-            console.log(theaterList);
-           theaterList.map((theater:Itheater)=> {
-            let element:Itheater={cinema:"",timing:[],price:[],classname:[],id:[]};
-                console.log(theater,"theater")
-                let bool = false
+            var movieobject: any = [{}];
+            var theaters: Array<Itheater> = [];
+            let theaterList = subCline[0].theater;//list of theaters showing that movie
+            theaterList.map((theater: Itheater) => {
+                let element: Itheater = { cinema: "", timing: [], price: [], classname: [], id: [] };//object to insert filtered theater data 
+                console.log(theater, "theater")
+                let bool = false//theater return boolean
                 var showTimes = theater.timing;
                 var price = theater.price;
                 var cn = theater.classname;
-                var showid=theater.id;
+                var showid = theater.id;
+                
                 cn = cn.filter((c) => {
-                    let index=0;
-                    let inc = false;
-                    if (priceFilter.length != 0) {
+                    let index = 0;
+                    let inc = false;//show return boolean
+
+                    if (priceFilter.length !== 0) {
                         priceFilter.forEach((i) => {
                             if (c.includes(i)) {
                                 inc = true;
                                 bool = true;
-                            
+
                             }
                         })
                     }
-                    if (timeFilter.length!= 0) {
+
+                    if (timeFilter.length != 0) {
                         timeFilter.forEach((i) => {
                             if (c.includes(i)) {
                                 inc = true;
@@ -95,44 +76,44 @@ if(movies!=null){
                         })
                     }
                     console.log(c, inc);
-                   if(!inc){           
-                    showTimes = showTimes.filter(function (st, i) {
-                                    return i == index;
-                                })
-                                price = price.filter(function (st, i) {
-                                    return i == index;
-                                })
-                                showid = showid.filter(function (st, i) {
-                                    return i == index;
-                                })
-                   }
-                     index++;
+                    if (!inc) {
+                        showTimes = showTimes.filter(function (st, i) {
+                            return i === index;
+                        })
+                        price = price.filter(function (st, i) {
+                            return i === index;
+                        })
+                        showid = showid.filter(function (st, i) {
+                            return i === index;
+                        })
+                    }
+                    index++;
                     return inc;
                 })
 
-                 if(bool){
+                if (bool) {//if any show got filtered in theater object
                     console.log(element)
-                     element.cinema=theater.cinema;
-                     element.classname=cn;
-                     element.price=price;
-                     element.timing=showTimes;
-                     element.id=showid;
+                    element.cinema = theater.cinema;
+                    element.classname = cn;
+                    element.price = price;
+                    element.timing = showTimes;
+                    element.id = showid;
                     theaters.push(element);
-                 }
+                }
 
             })
-            newobj[0].name=movie;
-            newobj[0].theater=theaters;
-            console.log(newobj, "vvv");
-            setobj(newobj)
-            console.log(newobj,"conrextcheck");
+            movieobject[0].name = movie;
+            movieobject[0].theater = theaters;
+            console.log(movieobject, "vvv");
+            setobj(movieobject)
+            console.log(movieobject, "conrextcheck");
         }
-    }, [priceFilter,timeFilter])
+    }, [priceFilter, timeFilter])
 
 
     return (
         <div>
-         <Header />
+            <Header />
             <section className="movieinfo lightbg">
                 <div className="leftmovieinfo">
                     <h1 className="ms-fontColor-white" id="moviename">{movie}</h1>
@@ -172,18 +153,14 @@ if(movies!=null){
                     <span>&#155;</span>
                 </div>
                 <div className="rightselector">
-                    <PriceRange prop={[priceFilter => setpriceFilter(priceFilter),priceList]} />
-                    <TimeRange prop={[timeFilter => settimeFilter(timeFilter),timeList]} />
+                    <PriceRange prop={[priceFilter => setpriceFilter(priceFilter), priceList]} />
+                    <TimeRange prop={[timeFilter => settimeFilter(timeFilter), timeList]} />
                     <i className="ms-Icon ms-Icon--Search"></i>
                 </div>
             </section>
 
             <section className="theatresigns"></section>
-      
-
             <ShowList insideIprop={obj} />
-
-
 
         </div>
     );

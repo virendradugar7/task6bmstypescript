@@ -6,7 +6,7 @@ import {MovieProvider} from './MovieContext';
 import Theater from './components/TheatrComponent/Theater';
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 // import {MovieProvider} from './MovieContext';
- import Seatselection from './components/SeatSelection/SeatSelection';
+ import Seatselection from './components/SeatSelection/SeatsSelection';
 import Ticket from './components/SeatSelection/Ticket'
 function App() {
  var item:number;

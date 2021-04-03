@@ -1,5 +1,5 @@
 import styles from '../../bms.css';
-// import movieImage from '../../asset/bms.jpg';
+ import movieImage from '../../asset/bms.jpg';
 import { Link } from 'react-router-dom';
 const HeaderLeft = () => {
   return (
@@ -8,8 +8,8 @@ const HeaderLeft = () => {
         to={'/'}>
 
         
-        {/* <img src={movieImage} style={logoStyle}> */}
-        {/* </img> */}
+        <img src={movieImage} style={logoStyle} alt="brandlogo/backbutton" /> 
+     
          </Link>
       
       <input type="text" className="topsearch" placeholder="Search for movies,Events,Plays,Sports and Activities"></input>

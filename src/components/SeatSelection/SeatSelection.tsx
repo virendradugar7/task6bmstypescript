@@ -9,10 +9,11 @@ import { Link } from 'react-router-dom';
 import Imovie from '../../interfaces/Moviecontex.interface'
 
 
-
+var leftt;//se
+var c:number;
 const Seatselection = () => {
-    let leftt:number;//seat left to be selected 
-let c:number;//initial user number of seats choice
+// at left to be selected 
+//initial user number of seats choice
 let bookedArray;
 let alreadyBooked;
 let occupiedSeats;
@@ -24,17 +25,13 @@ let occupiedSeats;
     const [modalIsOpen, setModalIsOpen] = useState(true)
     let { moviename, cinema, id } = useParams<ParamTypes>();
 
-    const value:Imovie[] = useContext(MovieContext);
-    const movies = value;
-    const clone = movies.filter(m => {
-        return m.name === moviename
+    const filtermovie:Function= useContext(MovieContext);
 
-    });
+    const clone=filtermovie(moviename);
     var newclone={theater:{}};
     newclone.theater = clone[0].theater.filter(i => {
         return i.cinema === cinema
     })
-    console.log(newclone, "ss");
     let time = newclone.theater[0].timing[id];
     let price = newclone.theater[0].price[id];
     var rows = document.querySelectorAll('.row');
@@ -90,22 +87,27 @@ function occupyprevseats(){
         console.log(leftt);
     
 
-        document.getElementById("ticketheading").innerHTML = "GOLD-RS." + clone[0].theater[0].price[id];
-        document.getElementById("numberoftickets").innerHTML =String(c);
+       // document.getElementById("ticketheading").innerHTML = "GOLD-RS." + clone[0].theater[0].price[id];
+        // document.getElementById("numberoftickets").innerHTML =String(c);
         occupyprevseats();
     }
+    let[bookticket,setboockticket]=useState<boolean>(false);
     const updateSelectedSeatsCount = () => {
         const selectedSeats = document.querySelectorAll('.row .selected');
         console.log(selectedSeats.length);
         const selectedSeatsCount = selectedSeats.length;
-        console.log(c);
+        console.log(c,selectedSeatsCount);
         if (selectedSeatsCount == (c)) {
-            document.getElementById("bookticket").style.display = "flex";
-            document.getElementById("total").innerHTML=String(c * clone[0].theater[0].price[id]);
+            console.log("tobeblocked");
+            setboockticket(!bookticket);
+            console.log(bookticket,"hellp")
+            // document.getElementById("bookticket").style.display = "flex";
+            // document.getElementById("total").innerHTML=String(c * clone[0].theater[0].price[id]);
             console.log("tobeblocked");
         }
         else if (selectedSeatsCount !== (c)) {
-            document.getElementById("bookticket").style.display = "none";
+            // document.getElementById("bookticket").style.display = "none";
+            setboockticket(false);
         }
     };
     function clear() {
@@ -113,11 +115,12 @@ function occupyprevseats(){
         for (var x = 0; x < xx.length; x++) {
             xx[x].className = 'seat';
             leftt++;
+            console.log(leftt);
         }
         var ssc = 0;
     }
     function clearseat() {
-        document.getElementById("bookticket").style.display = "none";
+       // document.getElementById("bookticket").style.display = "none";
         setModalIsOpen(true);
 
         clear();
@@ -245,7 +248,7 @@ function occupyprevseats(){
             </div>
             <div className="rightinject">
                 <div className="ticketdrop">
-                    <p id="numberoftickets"></p>
+                    <p id="numberoftickets">{String(c)}</p>
                     <p>Tickets</p>
                     <i className="ms-Icon ms-Icon--ChevronDownSmall ms-fontColor-white" style={{cursor: "pointer"}} onClick={() => clearseat()} ></i>
                 </div>
@@ -253,12 +256,12 @@ function occupyprevseats(){
             </div>
 
         </header>
-        <div id="dayandtime" style={{ height: '5vh', backgroundColor: 'grey' }}>
+        <div id="dayandtime">
             <p id="dandt" className="ms-fontColor-gray20">Today,{time}</p></div>
         <div id="seatcontainer">
 
             <div className="priceheading">
-                <p className="ms-fontColor-gray100 ms-fontSize-m" id="ticketheading"></p>
+                <p className="ms-fontColor-gray100 ms-fontSize-m" id="ticketheading">{price}</p>
 
             </div>
             <div className="row">
@@ -331,7 +334,7 @@ function occupyprevseats(){
             <p style={{ textAlign: 'center', alignSelf: 'center'}}>All eyes this way</p>
             <div className="seat-annotation"><div className="seat" style={{ backgroundColor: 'white' }}></div><p>Available</p><div className="seat" style={{ backgroundColor: 'grey' }}></div><p>unavailable</p><div className="seat" style={{ backgroundColor: 'red' }}></div><p>Selected</p></div>
         </div>
-        <footer id="bookticket">
+      <footer className={bookticket ? 'bookticket' : 'hidden'} >
             <Link style={{ color: 'black', textDecoration: 'none' }}
                 to={`/Ticket`}>
                 <button id="book" style={{ width: "30%" }} onClick={() => store()} >
@@ -339,6 +342,7 @@ function occupyprevseats(){
                 </button>
             </Link>
         </footer>
+    
     </div>
 
     );
